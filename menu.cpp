@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <stdlib.h>
 #include <vector>
 #include <string>
 using namespace std;
@@ -86,7 +87,6 @@ int main() {
     return 0;
 }        
 
-        
 void displayRules() {
     cout << "\nRules for Adding Books:\n";
     cout << "* Title, Author, and ISBN (5 digits) must be unique.\n";
@@ -116,7 +116,7 @@ void addBook(vector<Book>& books) {
     cin >> year;
     
      if (year < 0 || year > 2024) {
-        cout << "[Error]: Publication year must be between 800 AD and 2024 AD.\n";
+        cout << "[Error]: Publication year must be between 0 AD and 2024 AD.\n";
         return;
     }
     
@@ -169,7 +169,7 @@ void viewBookDetails(const vector<Book>& books, int index) {
 
 void searchBooks(const vector<Book>& books) {
     string search_word;
-    cout << "Enter Title, Author, or ISBN to search: ";
+    cout << "Enter Title, Author to search: ";
     cin.ignore();  
     getline(cin, search_word);
 
@@ -203,7 +203,7 @@ void searchBooks(const vector<Book>& books) {
     if (selectedIndex > 0 && selectedIndex <= books.size()) {
         viewBookDetails(books, selectedIndex - 1); 
     } else {
-        cout << "No book selected, or invalid index.\n";
+        cout << "No books selected, or invalid index.\n";
     }
     
 }
@@ -284,10 +284,10 @@ void displayStatistics(const vector<Book>& books) {
 
 void clearConsole() {
    
-    cout << "Press Enter to clear the console.";
+    /*cout << "Press Enter to clear the console.";
     cin.get();
     
-    system("cls");
+    system("clear");*/
 
     cout << "Console cleared.\n";
 }
