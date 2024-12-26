@@ -1,31 +1,27 @@
-# Library of Alexandria - C++ Library Management System
+# Library Management System (Library of Alexandria)
 
-This is a simple terminal-based Library Management System written in C++, where users can add, remove, browse, and search for books, as well as view their stats. The system uses C++ structures and vectors to manage book data.
+## Overview
+This program simulates a basic library management system called the "Library of Alexandria." Users can interact with a collection of books through a menu-driven interface. The system supports various functionalities such as browsing books, adding new books, removing books, searching for books, viewing library statistics, and viewing rules for adding books.
 
 ## Features
+- **Browse Books**: View a list of all books in the library.
+- **Add a New Book**: Allows users to add a new book to the library with a unique title, author, ISBN, publication year, and description.
+- **Remove a Book**: Users can remove a book from the library by providing its ISBN.
+- **Search for Books**: Users can search for books by title, author, or ISBN and view book details.
+- **View Library Stats**: Displays statistics such as the total number of books and how many were published before 1950.
+- **View Rules**: Provides the rules for adding a new book to the library (e.g., ISBN format, valid years).
+- **Console Clear**: Clears the console window (platform-dependent).
 
-- **Browse Books**: View all books in the library, including some preadded books.
-- **Add a Book**: Add a new book with details such as title, author, publication year, and ISBN.
-- **Remove a Book**: Remove books from the library.
-- **Search for a Book**: Search for books by title or author.
-- **View Stats**: Displays statistics about the library, such as total books or the most added author.
+## Prerequisites
+- A C++ compiler (e.g., GCC or MSVC)
+- A Unix-based or Windows-based environment for running the program.
 
-## Data Structures Used
+## Files
+- `menu.cpp`: The main source code for the library management system.
 
-- **Book Structure**: Each book is represented by a structure containing:
-  - `title`: The title of the book.
-  - `author`: The author of the book.
-  - `year`: The publication year of the book.
-  - `isbn`: The ISBN number of the book.
+## How to Run
 
-- **Vector**: A vector of `book` structures is used to store and manage the books in the library.
-
-## Installation
-
-To run this program on your local machine:
-
-1. You must have a C++ compiler installed (e.g., GCC or Clang).
-2. Clone this repository to your local machine:
-
+1. **Compile the Code**:
+   - Use a C++ compiler (e.g., `g++` or `clang++`) to compile the `main.cpp` file:
    ```bash
-   git clone https://github.com/Vamelyre/library_management_system_cs104.git
+   g++ main.cpp -o library_system
