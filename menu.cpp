@@ -289,5 +289,5 @@ void clearConsole() {
     
     system("clear");*/
 
-    cout << "Console cleared.\n";
+    //cout << "Console cleared.\n";
 }
