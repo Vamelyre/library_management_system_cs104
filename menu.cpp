@@ -12,12 +12,12 @@ struct Book {
     string description;
 };
 
-void displayRules();
+void displayRules();//rules for adding books to the library
 void addBook(vector<Book>& books);
 void removeBook(vector<Book>& books);
 void searchBooks(const vector<Book>& books);
 void displayBooks(const vector<Book>& books);
-void displayStatistics(const vector<Book>& books);
+void displayStatistics(const vector<Book>& books); //stats like how many books have been added
 void loadBooks(vector<Book>& books);
 
 void clearConsole();
@@ -287,7 +287,7 @@ void clearConsole() {
     cout << "Press Enter to clear the console.";
     cin.get();
     
-    system("clear");
+    system("cls");
 
     cout << "Console cleared.\n";
 }
