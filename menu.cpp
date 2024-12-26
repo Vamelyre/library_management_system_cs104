@@ -1,13 +1,10 @@
-
-
-//?data file 
-
 #include <iostream>
 #include <iomanip>
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <stdlib.h> 
+#include <cstdlib> 
+#include <limits>  
 using namespace std;
 
 struct Book {
@@ -25,6 +22,7 @@ void displayBooks(const vector<Book>& books);
 void displayStatistics(const vector<Book>& books);
 void loadBooks(vector<Book>& books);
 void saveBooks(const vector<Book>& books);
+void clearConsole();
 
 int main() {
     vector<Book> books;
@@ -32,9 +30,7 @@ int main() {
 
     int choice;
     do {
-
-    
-        cout << "\n                   _______  " << endl;
+        cout << "\n                   ______  " << endl;
         cout << "             ___===__  __===___" << endl;
         cout << "        ___===__===      ===__===____" << endl;
         cout << "   ___===__===________________===__===___" << endl;
@@ -61,14 +57,12 @@ int main() {
                 break;
             case 2:
                 addBook(books);
-                
                 break;
             case 3:
                 removeBook(books);
-               
                 break;
             case 4:
-                 searchBooks(books);
+                searchBooks(books);
                 break;
             case 5:
                 displayStatistics(books);
@@ -85,11 +79,10 @@ int main() {
         }
 
         if (choice != 7) {
-            cout << "\nPress any key to return to the menu...";
+            clearConsole(); 
         }
     } while (choice != 7);
-    
-    system("clear");
+
     return 0;
 }
 
@@ -105,7 +98,7 @@ void addBook(vector<Book>& books) {
     int isbn, year;
     
     cout << "Enter Title: ";
-
+    cin.ignore();  // This clears any leftover newline character from previous input
     getline(cin, title);
     cout << "Enter Author: ";
     getline(cin, author);
@@ -130,7 +123,6 @@ void addBook(vector<Book>& books) {
         cout << "[Error]: ISBN must be exactly 5 digits.\n";
         return;
     }
-    
 
     books.push_back({title, author, isbn, year});
     cout << "Book added successfully!\n";
@@ -152,20 +144,20 @@ void removeBook(vector<Book>& books) {
         cout << "Error: Book not found.\n";
     }
 }
-//---------------------------Search books
+
 void searchBooks(const vector<Book>& books) {
     string search_word;
     cout << "Enter Title, Author, or ISBN to search: ";
-
+    cin.ignore();  
     getline(cin, search_word);
 
     cout << setw(20) << "Title" << setw(20) << "Author" << setw(10) << "ISBN" << setw(15) << "Year" << "\n";
-     for (const auto& book : books) {
-         if (book.title == search_word || book.author == search_word || to_string(book.isbn) == search_word) {
-             cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
+    for (const auto& book : books) {
+        if (book.title == search_word || book.author == search_word || to_string(book.isbn) == search_word) {
+            cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
         }
     }
- }
+}
 
 void displayBooks(const vector<Book>& books) {
     vector<Book> sortedBooks = books;
@@ -175,57 +167,66 @@ void displayBooks(const vector<Book>& books) {
     cin >> option;
 
     switch (option) {
-    case 1:
-        sort(sortedBooks.begin(), sortedBooks.end(), [](const Book& a, const Book& b) { // -------------------this line 
-            return a.title < b.title;
-        });
-        break;
-    case 2:
-        sort(sortedBooks.begin(), sortedBooks.end(), [](const Book& a, const Book& b) {
-            return a.author < b.author;
-        });
-        break;
-    case 3:
-        sort(sortedBooks.begin(), sortedBooks.end(), [](const Book& a, const Book& b) {
-            return a.publicationYear < b.publicationYear;
-        });
-        break;
-    default:
-        cout << "Invalid choice.\n";
-        break;
-}
-
+        case 1:
+            sort(sortedBooks.begin(), sortedBooks.end(), [](const Book& a, const Book& b) {
+                return a.title < b.title;
+            });
+            break;
+        case 2:
+            sort(sortedBooks.begin(), sortedBooks.end(), [](const Book& a, const Book& b) {
+                return a.author < b.author;
+            });
+            break;
+        case 3:
+            sort(sortedBooks.begin(), sortedBooks.end(), [](const Book& a, const Book& b) {
+                return a.publicationYear < b.publicationYear;
+            });
+            break;
+        default:
+            cout << "Invalid choice.\n";
+            return;
+    }
 
     cout << setw(20) << "Title" << setw(20) << "Author" << setw(10) << "ISBN" << setw(15) << "Year" << "\n";
+    cout << "---------------------------------------------------------------------" << endl;
     for (const auto& book : sortedBooks) {
         cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
     }
-    
 }
 
+void displayStatistics(const vector<Book>& books) {
+    int totalBooks = books.size();
+    int pre1950 = count_if(books.begin(), books.end(), [](const Book& book) {
+        return book.publicationYear < 1950;
+    });
 
-
-
-//-------------------stats
- void displayStatistics(const vector<Book>& books) {
-     int totalBooks = books.size();
-     int pre1950 = count_if(books.begin(), books.end(), [](const Book& book) {
-         return book.publicationYear < 1950;
-     });
-
-     cout << "\nLibrary Statistics:\n";
-     cout << "Total Books: " << totalBooks << "\n";
+    cout << "\nLibrary Statistics:\n";
+    cout << "Total Books: " << totalBooks << "\n";
     cout << "Books Published Before 1950: " << pre1950 << "\n";
- }
+}
 
 void loadBooks(vector<Book>& books) {
     books = {
-        {"The Iliad", "Homer", 12345, -762},
+        {"The Iliad", "Homer", 12345, 762},
         {"Metamorphoses", "Ovid", 23456, 8},
-        {"Histories", "Herodotus", 34567, -450}
+        {"Histories", "Herodotus", 34567, 450}
     };
 }
 
 void saveBooks(const vector<Book>& books) {
     cout << "\nData saved.\n";
 }
+
+void clearConsole() {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    
+    cout << "Press Enter to clear the console.";
+    cin.get();
+    
+    system("clear");
+
+    cout << "Console cleared.\n";
+}
+
+
+//add book descriptions and give them indeces 
