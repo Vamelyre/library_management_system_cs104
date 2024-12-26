@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <stdlib.h> //system("cls")
+#include <stdlib.h> 
 using namespace std;
 
 struct Book {
@@ -32,11 +32,10 @@ int main() {
 
     int choice;
     do {
-        system("cls");
-        
+
     
-        cout << "                   ____  " << endl;
-        cout << "             ___===    ===___" << endl;
+        cout << "\n                   _______  " << endl;
+        cout << "             ___===__  __===___" << endl;
         cout << "        ___===__===      ===__===____" << endl;
         cout << "   ___===__===________________===__===___" << endl;
         cout << "  ========================================" << endl;
@@ -56,19 +55,20 @@ int main() {
 
         cin >> choice;
 
-        system("cls");
         switch (choice) {
             case 1:
-                addBook(books);
+                displayBooks(books);
                 break;
             case 2:
-                removeBook(books);
+                addBook(books);
+                
                 break;
             case 3:
-                searchBooks(books);
+                removeBook(books);
+               
                 break;
             case 4:
-                displayBooks(books);
+                 searchBooks(books);
                 break;
             case 5:
                 displayStatistics(books);
@@ -88,7 +88,8 @@ int main() {
             cout << "\nPress any key to return to the menu...";
         }
     } while (choice != 7);
-
+    
+    system("clear");
     return 0;
 }
 
@@ -152,19 +153,19 @@ void removeBook(vector<Book>& books) {
     }
 }
 //---------------------------Search books
-// void searchBooks(const vector<Book>& books) {
-//     string search_word;
-//     cout << "Enter Title, Author, or ISBN to search: ";
+void searchBooks(const vector<Book>& books) {
+    string search_word;
+    cout << "Enter Title, Author, or ISBN to search: ";
 
-//     getline(cin, search_word);
+    getline(cin, search_word);
 
-//     cout << setw(20) << "Title" << setw(20) << "Author" << setw(10) << "ISBN" << setw(15) << "Year" << "\n";
-//     for (const auto& book : books) {
-//         if (book.title == search_word || book.author == search_word || to_string(book.isbn) == search_word) {
-//             cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
-//         }
-//     }
-// }
+    cout << setw(20) << "Title" << setw(20) << "Author" << setw(10) << "ISBN" << setw(15) << "Year" << "\n";
+     for (const auto& book : books) {
+         if (book.title == search_word || book.author == search_word || to_string(book.isbn) == search_word) {
+             cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
+        }
+    }
+ }
 
 void displayBooks(const vector<Book>& books) {
     vector<Book> sortedBooks = books;
@@ -199,21 +200,23 @@ void displayBooks(const vector<Book>& books) {
     for (const auto& book : sortedBooks) {
         cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
     }
+    
 }
 
 
 
-//-------------------stats
-// void displayStatistics(const vector<Book>& books) {
-//     int totalBooks = books.size();
-//     int pre1950 = count_if(books.begin(), books.end(), [](const Book& book) {
-//         return book.publicationYear < 1950;
-//     });
 
-//     cout << "\nLibrary Statistics:\n";
-//     cout << "Total Books: " << totalBooks << "\n";
-//     cout << "Books Published Before 1950: " << pre1950 << "\n";
-// }
+//-------------------stats
+ void displayStatistics(const vector<Book>& books) {
+     int totalBooks = books.size();
+     int pre1950 = count_if(books.begin(), books.end(), [](const Book& book) {
+         return book.publicationYear < 1950;
+     });
+
+     cout << "\nLibrary Statistics:\n";
+     cout << "Total Books: " << totalBooks << "\n";
+    cout << "Books Published Before 1950: " << pre1950 << "\n";
+ }
 
 void loadBooks(vector<Book>& books) {
     books = {
