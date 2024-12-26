@@ -2,8 +2,6 @@
 #include <iomanip>
 #include <vector>
 #include <string>
-#include <cstdlib>
-#include <limits>
 using namespace std;
 
 struct Book {
@@ -77,15 +75,18 @@ int main() {
             default:
                 cout << "Invalid choice. Try again.\n";
         }
-
+        
         if (choice != 7) {
+            cout << "\n";
             clearConsole(); 
         }
     } while (choice != 7);
+    
+    system("clear");
+    return 0;
+}        
 
-    return 0;  // This closes the main function properly.
-}
-
+        
 void displayRules() {
     cout << "\nRules for Adding Books:\n";
     cout << "* Title, Author, and ISBN (5 digits) must be unique.\n";
@@ -100,12 +101,24 @@ void addBook(vector<Book>& books) {
     cout << "Enter the title: ";
     cin.ignore(); 
     getline(cin, title);
+    
     cout << "Enter the author: ";
     getline(cin, author);
+    
     cout << "Enter a 5-digit ISBN: ";
     cin >> isbn;
+    
+    if (isbn < 10000 || isbn > 99999) {
+        cout << "[Error]: ISBN must be exactly 5 digits.\n";
+        return;
+    }
     cout << "Enter the publication year: ";
     cin >> year;
+    
+     if (year < 0 || year > 2024) {
+        cout << "[Error]: Publication year must be between 800 AD and 2024 AD.\n";
+        return;
+    }
     
     cin.ignore(); 
     cout << "Enter the description (or press Enter to skip): ";
@@ -118,15 +131,7 @@ void addBook(vector<Book>& books) {
         }
     }
 
-    if (year < 0 || year > 2024) {
-        cout << "[Error]: Publication year must be between 800 AD and 2024 AD.\n";
-        return;
-    }
-
-    if (to_string(isbn).length() != 5) {
-        cout << "[Error]: ISBN must be exactly 5 digits.\n";
-        return;
-    }
+    
 
     books.push_back({title, author, isbn, year, description});
     cout << "Book added successfully!\n";
@@ -135,18 +140,18 @@ void addBook(vector<Book>& books) {
 void removeBook(vector<Book>& books) {
     int isbn;
     cout << "Enter ISBN of the book to remove: ";
-    cin >> isbn;
-
-    bool found = false;
-    for (auto it = books.begin(); it != books.end(); ++it) {
-        if (it->isbn == isbn) {
-            books.erase(it);
-            found = true;
+    cin >> isbn;  
+    
+    bool found = false;  
+    
+    for (int i = 0; i < books.size(); i++) {
+        if (books[i].isbn == isbn) { 
+            books.erase(books.begin() + i);  
+            found = true; 
             cout << "Book removed successfully.\n";
-            break;
+            break;  
         }
     }
-
     if (!found) {
         cout << "Error: Book not found.\n";
     }
@@ -169,12 +174,38 @@ void searchBooks(const vector<Book>& books) {
     getline(cin, search_word);
 
     cout << setw(25) << "Title" << setw(25) << "Author" << setw(10) << "ISBN" << setw(25) << "Year" << "\n";
-    for (const auto& book : books) {
-        if (book.title == search_word || book.author == search_word // or the isbn code but the search word is a string and isbn isn't 
-        ) { 
-            cout << setw(20) << book.title << setw(20) << book.author << setw(10) << book.isbn << setw(15) << book.publicationYear << "\n";
+    
+    bool found = false;
+
+    for (size_t i = 0; i < books.size(); ++i) {
+        const Book& book = books[i];
+        
+        if (book.title == search_word || book.author == search_word) {
+            cout << setw(5) << "[" << i + 1  << "]"
+            << setw(25) << book.title 
+            << setw(25) << book.author 
+            << setw(10) << book.isbn 
+            << setw(15) << book.publicationYear 
+            << "\n";
+            found = true;
         }
     }
+
+    if (!found) {
+        cout << "No books found matching the search word.\n";
+        return;
+    }
+
+    int selectedIndex;
+    cout << "Enter the index of the book to view details, or 0 to skip: ";
+    cin >> selectedIndex;
+
+    if (selectedIndex > 0 && selectedIndex <= books.size()) {
+        viewBookDetails(books, selectedIndex - 1); 
+    } else {
+        cout << "No book selected, or invalid index.\n";
+    }
+    
 }
 
 void displayBooks(const vector<Book>& books) {
@@ -246,11 +277,13 @@ void displayStatistics(const vector<Book>& books) {
             pre1950++;
         }
     }
+    cout << "\nLibrary Statistics:\n";
+    cout << "Total Books: " << totalBooks << "\n";
+    cout << "Books Published Before 1950: " << pre1950 << "\n";
 }
 
 void clearConsole() {
    
-    
     cout << "Press Enter to clear the console.";
     cin.get();
     
